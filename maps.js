@@ -1,8 +1,10 @@
 
-      var map;
+    var map;
 
       // Create a new blank array for all the listing markers.
     var markers = [];
+
+    var largeInfoWindow;
 
     var locations = [
           {title: 'Baby Blues BBQ', location: {lat: 34.0004, lng: -118.4654}},
@@ -164,7 +166,8 @@
 
         // These are the real estate listings that will be shown to the user.
         // Normally we'd have these in a database instead.
-   
+        
+        largeInfoWindow = new google.maps.InfoWindow();
 
         for(var i=0; i <locations.length; i++){
 
@@ -172,33 +175,78 @@
             map: map,
             position: locations[i].location,
             title: locations[i].title,
+            animation: google.maps.Animation.DROP,
             id: i
             });
             markers.push(marker);
+            console.log(markers[i].title);
+
+        // marker.addListener('click', function() {
+        //     populateInfoWindow(this, largeInfoWindow);
+        //   });
+
+        marker.addListener('click', function(){
+            largeInfoWindow.setContent(this.title);
+            largeInfoWindow.open(map, this);
+        });
+
+           
+
+          
         };
+
+
+        function populateInfoWindow(marker, infowindow) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
+          // Clear the infowindow content to give the streetview time to load.
+          infowindow.setContent(marker.title);
+          infowindow.marker = marker;
+          // Make sure the marker property is cleared if the infowindow is closed.
+          infowindow.addListener('closeclick', function() {
+            infowindow.marker = null;
+          });
+
+        infowindow.open(map, marker);
+        }
+      }
+
+      ko.applyBindings(new MapViewModel());
+
 
     }
 
-      //   var marker = new google.maps.Marker({
-      //        map: map,
-      //       position: locations[0].location,
-      //       title: locations[0].title
-      //     });
 
-      // }
+var MapViewModel = function(){
 
-    var MapViewModel = function(){
+    var self = this;
 
+    this.markerList = ko.observableArray();
 
+    var infowindow = new google.maps.InfoWindow();
 
-    this.title = ko.observable("Venice");
+    markers.forEach(function(marker){
+        self.markerList.push(marker);
+        console.log(marker);
+    });
 
-
+    this.displayInfoWindow = function(marker){
+            console.log(marker);
+            largeInfoWindow.setContent(marker.title);
+            largeInfoWindow.open(map, marker);
+        }
 
 }
 
 
 
+    
 
 
-ko.applyBindings(new MapViewModel());
+
+
+
+
+
+
+

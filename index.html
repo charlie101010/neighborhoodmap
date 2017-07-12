@@ -14,6 +14,8 @@
         <h1>Find My Favorite Places in Venice</h1>
         <div>
 
+
+
             <div class="input-group">
                <input type="text" class="form-control" placeholder ="Cool Venice Spots">
                <span class="input-group-btn">
@@ -21,9 +23,11 @@
                </span>
             </div>
 
-             
-          
-           <h2 id="places" data-bind="text: title"></h2>
+            
+          <div data-bind="foreach: markerList">
+            <h2 data-bind="text: title, click: $parent.displayInfoWindow"></h2>
+          </div>
+
         
         </div>
       </div>
