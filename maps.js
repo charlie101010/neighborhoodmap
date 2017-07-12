@@ -1,4 +1,58 @@
 
+    // $.post({
+    //     url: "https://api.yelp.com/oauth2/token",
+    //     data:{
+    //     grant_type: "client_credentials",
+    //     client_id: "tcXbgHjLz0IYcmKH8mdS4Q",
+    //     client_secret: "7peeV5pWK27sy18yiRLGK6BcBJxRjD4DWFjTlW5a73N117GcOxm7LsbM8o7GbNor",
+    //     },
+    //     success: function(result){
+    //         jquery.parseJSON(result);
+    //         console.log(result);
+    //     },
+    //     dataType: "jsonp",
+    //     });
+
+      // $.ajax({
+      //   url: "https://api.yelp.com/v3/businesses/search",
+      //   method: "GET",
+      //   cache: true,
+      //   data:{
+      //   term: "restaurant",
+      //   location: "chicago",
+      //   },
+      //    beforeSend: function(xhr) {
+      //       xhr.setRequestHeader('Authorization', 'Bearer XZQIGt4aklmW_4yQ3q5JHm0OM9VbpiLRdSxkyH3Wkz46bkWQeVq9WUgfU2ARfzkeTkIr0Ngv9kPZHwRDoNPOr_WISA4XwwQo98OFV6Mcjl_JdypjYTLxY3UC93RmWXYx');
+      //       },
+      //   headers:{
+      //   'Authorization': 'Bearer XZQIGt4aklmW_4yQ3q5JHm0OM9VbpiLRdSxkyH3Wkz46bkWQeVq9WUgfU2ARfzkeTkIr0Ngv9kPZHwRDoNPOr_WISA4XwwQo98OFV6Mcjl_JdypjYTLxY3UC93RmWXYx',
+      //   },
+      //   success: function(result){
+      //       jquery.parseJSON(result);
+      //       console.log(result);
+      //   },
+      //   dataType: "jsonp",
+      //   });
+
+
+      $.ajax({
+        url: "https://api.foursquare.com/v2/venues/search",
+        method: "GET",
+        cache: true,
+        data:{
+        client_secret: "LUNMTE4AERJGM3IRPKODWP1Q1GQZTEJJTEQRBESXYVKOO203",
+        v: "20170711",
+        client_id: "OSUZQUW5J2LQFH1LUSHO1SYJ52MNYANNC0KU5AOZAUI4AMZK",
+        ll: "40.7,-74",
+        },
+        success: function(result){
+            console.log(result);
+        },
+        dataType: "json",
+        });
+
+
+
     var map;
 
       // Create a new blank array for all the listing markers.
@@ -195,21 +249,22 @@
           
         };
 
+      //   function populateInfoWindow(marker, infowindow) {
+      //   // Check to make sure the infowindow is not already opened on this marker.
+      //   if (infowindow.marker != marker) {
+      //     // Clear the infowindow content to give the streetview time to load.
+      //     infowindow.setContent(marker.title);
+      //     infowindow.marker = marker;
+      //     // Make sure the marker property is cleared if the infowindow is closed.
+      //     infowindow.addListener('closeclick', function() {
+      //       infowindow.marker = null;
+      //     });
 
-        function populateInfoWindow(marker, infowindow) {
-        // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker != marker) {
-          // Clear the infowindow content to give the streetview time to load.
-          infowindow.setContent(marker.title);
-          infowindow.marker = marker;
-          // Make sure the marker property is cleared if the infowindow is closed.
-          infowindow.addListener('closeclick', function() {
-            infowindow.marker = null;
-          });
+      //   infowindow.open(map, marker);
+      //   }
+      // }
 
-        infowindow.open(map, marker);
-        }
-      }
+
 
       ko.applyBindings(new MapViewModel());
 
@@ -235,6 +290,8 @@ var MapViewModel = function(){
             largeInfoWindow.setContent(marker.title);
             largeInfoWindow.open(map, marker);
         }
+
+
 
 }
 
