@@ -1,44 +1,4 @@
 
-    // $.post({
-    //     url: "https://api.yelp.com/oauth2/token",
-    //     data:{
-    //     grant_type: "client_credentials",
-    //     client_id: "tcXbgHjLz0IYcmKH8mdS4Q",
-    //     client_secret: "7peeV5pWK27sy18yiRLGK6BcBJxRjD4DWFjTlW5a73N117GcOxm7LsbM8o7GbNor",
-    //     },
-    //     success: function(result){
-    //         jquery.parseJSON(result);
-    //         console.log(result);
-    //     },
-    //     dataType: "jsonp",
-    //     });
-
-      // $.ajax({
-      //   url: "https://api.yelp.com/v3/businesses/search",
-      //   method: "GET",
-      //   cache: true,
-      //   data:{
-      //   term: "restaurant",
-      //   location: "chicago",
-      //   },
-      //    beforeSend: function(xhr) {
-      //       xhr.setRequestHeader('Authorization', 'Bearer XZQIGt4aklmW_4yQ3q5JHm0OM9VbpiLRdSxkyH3Wkz46bkWQeVq9WUgfU2ARfzkeTkIr0Ngv9kPZHwRDoNPOr_WISA4XwwQo98OFV6Mcjl_JdypjYTLxY3UC93RmWXYx');
-      //       },
-      //   headers:{
-      //   'Authorization': 'Bearer XZQIGt4aklmW_4yQ3q5JHm0OM9VbpiLRdSxkyH3Wkz46bkWQeVq9WUgfU2ARfzkeTkIr0Ngv9kPZHwRDoNPOr_WISA4XwwQo98OFV6Mcjl_JdypjYTLxY3UC93RmWXYx',
-      //   },
-      //   success: function(result){
-      //       jquery.parseJSON(result);
-      //       console.log(result);
-      //   },
-      //   dataType: "jsonp",
-      //   });
-
-
-
-
-
-
     var map;
 
       // Create a new blank array for all the listing markers.
@@ -228,50 +188,6 @@
 
     }
 
-           
-
-          
-        // };
-
-
-        // function populateInfoWindow(marker, infowindow){
-        //       $.ajax({
-        //             url: "https://api.foursquare.com/v2/venues/search",
-        //             method: "GET",
-        //             cache: true,
-        //             data:{
-        //             client_secret: "LUNMTE4AERJGM3IRPKODWP1Q1GQZTEJJTEQRBESXYVKOO203",
-        //             v: "20170711",
-        //             client_id: "OSUZQUW5J2LQFH1LUSHO1SYJ52MNYANNC0KU5AOZAUI4AMZK",
-        //             ll: "34.0004,-118.4654",
-        //             limit: "1",
-        //             },
-        //             dataType: "json",
-        //             success: function(result){
-        //             infowindow.setContent(marker.title + " " +result.response.venues[0].name)
-        //             infowindow.open(map, marker);
-        //                 },
-        //     });
-
-
-            
-        // }
-
-      //   function populateInfoWindow(marker, infowindow) {
-      //   // Check to make sure the infowindow is not already opened on this marker.
-      //   if (infowindow.marker != marker) {
-      //     // Clear the infowindow content to give the streetview time to load.
-      //     infowindow.setContent(marker.title);
-      //     infowindow.marker = marker;
-      //     // Make sure the marker property is cleared if the infowindow is closed.
-      //     infowindow.addListener('closeclick', function() {
-      //       infowindow.marker = null;
-      //     });
-
-      //   infowindow.open(map, marker);
-      //   }
-      // }
-
 
       ko.applyBindings(new MapViewModel());
 
@@ -291,7 +207,6 @@ var InfoWindowControls = {
         var latlong = InfoWindowControls.getLatLng(marker).toString();
         var noparens = latlong.slice(1, -1);
         noparens.replace(" ", "")
-        console.log(noparens);
               $.ajax({
                     url: "https://api.foursquare.com/v2/venues/search",
                     method: "GET",
@@ -305,7 +220,10 @@ var InfoWindowControls = {
                     },
                     dataType: "json",
                     success: function(result){
-                    infowindow.setContent(marker.title + " " +result.response.venues[0].name)
+                        console.log(result);
+
+                    infowindow.setContent("<h1>"+ marker.title + "</h1>" +"<p> Category: " + result.response.venues[0].categories[0].name + "</p>" +
+                        "<p> Check Ins: " + result.response.venues[0].stats.checkinsCount + "</p>");
                     infowindow.open(map, marker);
                         },
             });
@@ -320,6 +238,8 @@ var MapViewModel = function(){
     var self = this;
 
     this.markerList = ko.observableArray();
+
+    this.selectedMarkers = ko.observableArray();
 
     var infowindow = new google.maps.InfoWindow();
 

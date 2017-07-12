@@ -11,6 +11,7 @@
   <body>
     <div class="container-fluid">
       <div class="options-box">
+      
         <h1>Find My Favorite Places in Venice</h1>
         <div>
 
@@ -26,6 +27,15 @@
           <div data-bind="foreach: markerList">
             <h2 data-bind="text: title, click: $parent.displayInfoWindow"></h2>
           </div>
+
+           <h1>
+             Check Out My Favorites:
+              <select id="myfaves" data-bind="options: markerList,  optionsText: 'title', value: selectedMarkers"  multiple= "true"></select>
+        </h1>
+        <div data-bind="foreach: selectedMarkers">
+          <h2 data-bind="text: title"></h2>
+        </div>
+         
 
         
         </div>
