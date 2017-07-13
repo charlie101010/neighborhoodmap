@@ -1,25 +1,24 @@
 
-    var map;
+var map;
 
-      // Create a new blank array for all the listing markers.
-    var markers = [];
+  // Create a new blank array for all the listing markers.
+var markers = [];
 
-    //Infowindow which is initialized later to display information about each marker
-    var largeInfoWindow;
+//Infowindow which is initialized later to display information about each marker
+var largeInfoWindow;
 
     //Location data of my favorite places
-    var locations = [
-          {title: 'Baby Blues BBQ', location: {lat: 34.0004, lng: -118.4654}},
-          {title: 'Shoops Deli', location: {lat: 34.0039, lng: -118.4858}},
-          {title: 'Casa Linda', location: {lat: 33.9923, lng: -118.4717}},
-          {title: 'The Venice Whaler', location: {lat: 33.9790, lng: -118.4666}},
-          {title: 'Jenis Ice Cream', location: {lat: 33.9986, lng: -118.4730}}
+var locations = [
+      {title: 'Baby Blues BBQ', location: {lat: 34.0004, lng: -118.4654}},
+      {title: 'Shoops Deli', location: {lat: 34.0039, lng: -118.4858}},
+      {title: 'Casa Linda', location: {lat: 33.9923, lng: -118.4717}},
+      {title: 'The Venice Whaler', location: {lat: 33.9790, lng: -118.4666}},
+      {title: 'Jenis Ice Cream', location: {lat: 33.9986, lng: -118.4730}}
 
         ];
 
 
-
-      function initMap() {
+function initMap() {
         // Create a styles array to use with the map.  Got this from SnazzyMaps.
         var styles = [
     {
@@ -210,7 +209,7 @@
 
 
       //Apply Knockout bindings after the Map object has loaded
-      ko.applyBindings(new MapViewModel());
+    ko.applyBindings(new MapViewModel());
 
 
     }
@@ -244,16 +243,16 @@ var InfoWindowControls = {
                     dataType: "json",
                     success: function(result){
                     //Success Callback populates and opens the InfoWindow
-                    infowindow.setContent("<h1>"+ marker.title + "</h1>" +"<p> Category: " + result.response.venues[0].categories[0].name + "</p>" +
-                        "<p> Check Ins: " + result.response.venues[0].stats.checkinsCount + "</p>");
-                    infowindow.open(map, marker);
-                    document.getElementById('clear').addEventListener('click', function(){
-                        infowindow.close();
-                    });
-                        },
+                        infowindow.setContent("<h1>"+ marker.title + "</h1>" +"<p> Category: " + result.response.venues[0].categories[0].name + "</p>" +
+                            "<p> Check Ins: " + result.response.venues[0].stats.checkinsCount + "</p>");
+                        infowindow.open(map, marker);
+                        document.getElementById('clear').addEventListener('click', function(){
+                            infowindow.close();
+                        });
+                    },
                     error: function (error) {
                          alert('We are unable to retrieve the data for this location');
-              } 
+                    } 
             });
 
 
@@ -269,11 +268,19 @@ var MapViewModel = function(){
 
     var self = this;
 
+    //This array contains all of the markers
     this.markerList = ko.observableArray();
 
+    markers.forEach(function(marker){
+        self.markerList.push(marker);
+        console.log(marker);
+    });
+
+    //This array contains selected markers from the multi select box
     this.selectedMarkers = ko.observableArray();
 
 
+    //Enables filtering to only show selected markers in the list and on the map
     this.filter = function(){
         self.markerList().forEach(function(marker){
             marker.setMap(null);
@@ -283,6 +290,7 @@ var MapViewModel = function(){
         });
     }
 
+    //This array clears selections and displays all markers on the map again
     this.clearSelection= function(){
         this.markerList().forEach(function(marker){
              marker.setMap(map);
@@ -290,23 +298,15 @@ var MapViewModel = function(){
         this.selectedMarkers([]);
     }
 
+    //Display all locations in the list
     this.selectAll = function(){
+        this.markerList().forEach(function(marker){
+             marker.setMap(map);
+            });
         this.selectedMarkers(this.markerList());
     }
     
-
-    this.clearInfoWindow = function(){
-        if(this.infowindow){
-            this.infowindow.close();
-        }
-    }
-
-    // var infowindow = new google.maps.InfoWindow();
-
-    markers.forEach(function(marker){
-        self.markerList.push(marker);
-        console.log(marker);
-    });
+    
 
     this.displayInfoWindow = function(marker){
             console.log(marker);
@@ -316,10 +316,6 @@ var MapViewModel = function(){
         }
 
     this.chosenMarker = ko.observable(null);
-
-
-
-    
 
 
 }

@@ -13,49 +13,26 @@
     <div class="container-fluid">
       <div class="options-box">
       
- <!--        <h1>Find My Favorite Places in Venice</h1>
-        <div>
-
-<div>
-<h2>
-    Choose a Specific Location:</h2>
-    <select data-bind="options: markerList, optionsText: 'title', value: chosenMarker"></select>
-      <h2 data-bind="text: chosenMarker().title, click: displayInfoWindow"></h2>
-
-    </div>
-
-
-
-
-            <div class="input-group">
-               <input type="text" class="form-control" data-bind="value: newMarker" placeholder ="Add a New Spot"/>
-               <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" data-bind="click: addMarker">Submit</button>
-               </span>
-            </div>
-      
-
-          <div data-bind="foreach: markerList">
-            <h2 data-bind="text: title, click: $parent.displayInfoWindow"></h2>
-          </div> -->
           <!--This shows all of the listings in my map -->
-           <h1>
+          <h1>
              Check Out A List of My Favorite Places in Venice:
-            </h1>
-            <h5>Select any of the items below to filter the map.  Click on the item listing or marker for more details.</h5>
-            <h3>
+          </h1>
+          <h5>Select any of the items below to filter the map.  Click on the item listing or marker for more details.</h5>
+          <h3>
               <!--This binds the listings to the filter function in the MapViewModel -->
-              <select id="myfaves" data-bind="options: markerList,  optionsText: 'title', selectedOptions: selectedMarkers, click: filter"  multiple= "true"></select>
-            </h3>
+            <select id="myfaves" data-bind="options: markerList,  optionsText: 'title', selectedOptions: selectedMarkers, click: filter"  multiple= "true"></select>
+          </h3>
         
         <!--This iterates through the selectedMarkers observable Array and also binds the displayInfoWindow function for each item -->
-        <div data-bind="foreach: selectedMarkers">
-          <h2 data-bind="text: title, click: $parent.displayInfoWindow"></h2>
-        </div>
+          <div data-bind="foreach: selectedMarkers">
+             <a>
+              <h2 data-bind="text: title, click: $parent.displayInfoWindow"></h2>
+            </a>
+          </div>
 
         <!--These two buttons are tied to convenience functions for the user to make interacting with the list easier -->
-        <button type="button" data-bind="click: selectAll" class="btn btn-primary">Select All</button>
-        <button type="button" id="clear" data-bind="click: clearSelection, clearInfoWindow" class="btn btn-default">Clear</button>
+          <button type="button" data-bind="click: selectAll" class="btn btn-primary btn-responsive">Select All</button>
+          <button type="button" id="clear" data-bind="click: clearSelection, clearInfoWindow" class="btn btn-default btn-responsive">Clear</button>
     
        
 
