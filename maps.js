@@ -4,13 +4,17 @@
       // Create a new blank array for all the listing markers.
     var markers = [];
 
+    //Infowindow which is initialized later to display information about each marker
     var largeInfoWindow;
 
+    //Location data of my favorite places
     var locations = [
           {title: 'Baby Blues BBQ', location: {lat: 34.0004, lng: -118.4654}},
           {title: 'Shoops Deli', location: {lat: 34.0039, lng: -118.4858}},
           {title: 'Casa Linda', location: {lat: 33.9923, lng: -118.4717}},
-          {title: 'The Venice Whaler', location: {lat: 33.9790, lng: -118.4666}}
+          {title: 'The Venice Whaler', location: {lat: 33.9790, lng: -118.4666}},
+          {title: 'Jenis Ice Cream', location: {lat: 33.9986, lng: -118.4730}}
+
         ];
 
 
@@ -168,6 +172,7 @@
         // Normally we'd have these in a database instead.
         
         largeInfoWindow = new google.maps.InfoWindow();
+        var bounds = new google.maps.LatLngBounds();
 
         for(var i=0; i <locations.length; i++){
 
@@ -176,19 +181,35 @@
             position: locations[i].location,
             title: locations[i].title,
             animation: google.maps.Animation.DROP,
-            id: i
             });
             markers.push(marker);
             console.log(markers[i].title);
+            bounds.extend(markers[i].position);
 
       
         marker.addListener('click', function(){
             InfoWindowControls.populateInfoWindow(this, largeInfoWindow);
+            
         });
 
+        marker.addListener('click', toggleBounce);
+       
+
     }
+     map.fitBounds(bounds);
+
+    //Code from Google documentation to make marker bounce
+    function toggleBounce() {
+        if (this.getAnimation() !== null) {
+          this.setAnimation(null);
+        } else {
+          this.setAnimation(google.maps.Animation.BOUNCE);
+
+        }
+      }
 
 
+      //Apply Knockout bindings after the Map object has loaded
       ko.applyBindings(new MapViewModel());
 
 
@@ -196,17 +217,19 @@
 
 var InfoWindowControls = {
 
-
+    //This is used to get the LatLong of a marker so I can pass it into the FourSquare API
     getLatLng: function(marker){
         var markerposition = marker.getPosition();
         return markerposition;
     },
     
+    //This function opens and populates the InfowWindow with data I have input and FourSquare API data
     populateInfoWindow: function(marker, infowindow){
-
+        //Formatting LatLong data for proper FourSquare URL format
         var latlong = InfoWindowControls.getLatLng(marker).toString();
         var noparens = latlong.slice(1, -1);
         noparens.replace(" ", "")
+        //Ajax request calling the FourSquare API
               $.ajax({
                     url: "https://api.foursquare.com/v2/venues/search",
                     method: "GET",
@@ -220,20 +243,27 @@ var InfoWindowControls = {
                     },
                     dataType: "json",
                     success: function(result){
-                        console.log(result);
-
+                    //Success Callback populates and opens the InfoWindow
                     infowindow.setContent("<h1>"+ marker.title + "</h1>" +"<p> Category: " + result.response.venues[0].categories[0].name + "</p>" +
                         "<p> Check Ins: " + result.response.venues[0].stats.checkinsCount + "</p>");
                     infowindow.open(map, marker);
+                    document.getElementById('clear').addEventListener('click', function(){
+                        infowindow.close();
+                    });
                         },
+                    error: function (error) {
+                         alert('We are unable to retrieve the data for this location');
+              } 
             });
 
 
             
-        }
+        },
+
+        
 }
 
-var MarkerManager = {}
+
 
 var MapViewModel = function(){
 
@@ -242,6 +272,7 @@ var MapViewModel = function(){
     this.markerList = ko.observableArray();
 
     this.selectedMarkers = ko.observableArray();
+
 
     this.filter = function(){
         self.markerList().forEach(function(marker){
@@ -254,12 +285,23 @@ var MapViewModel = function(){
 
     this.clearSelection= function(){
         this.markerList().forEach(function(marker){
-            marker.setMap(map);
-        });
+             marker.setMap(map);
+            });
         this.selectedMarkers([]);
     }
 
-    var infowindow = new google.maps.InfoWindow();
+    this.selectAll = function(){
+        this.selectedMarkers(this.markerList());
+    }
+    
+
+    this.clearInfoWindow = function(){
+        if(this.infowindow){
+            this.infowindow.close();
+        }
+    }
+
+    // var infowindow = new google.maps.InfoWindow();
 
     markers.forEach(function(marker){
         self.markerList.push(marker);
@@ -270,9 +312,14 @@ var MapViewModel = function(){
             console.log(marker);
             InfoWindowControls.getLatLng(marker);
             InfoWindowControls.populateInfoWindow(marker, largeInfoWindow);
-          
+
         }
 
+    this.chosenMarker = ko.observable(null);
+
+
+
+    
 
 
 }

@@ -26,6 +26,14 @@
 
       }
 
+      p{
+        color: #CDCDCD;
+        padding: 10px;
+      }
+
+      h5{color: #CDCDCD;
+      }
+
 
       hr {
         background: #D0D7D9;
@@ -42,7 +50,7 @@
       #map {
         bottom:0px;
         height: 100%;
-        left: 362px;
+        left: 358px;
         position: absolute;
         right: 0px;
       }
