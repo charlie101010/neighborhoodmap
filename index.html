@@ -30,12 +30,15 @@
 
            <h1>
              Check Out My Favorites:
-              <select id="myfaves" data-bind="options: markerList,  optionsText: 'title', value: selectedMarkers"  multiple= "true"></select>
+              <select id="myfaves" data-bind="options: markerList,  optionsText: 'title', selectedOptions: selectedMarkers"  multiple= "true"></select>
         </h1>
         <div data-bind="foreach: selectedMarkers">
-          <h2 data-bind="text: title"></h2>
+          <h2 data-bind="text: title, click: $parent.displayInfoWindow"></h2>
         </div>
-         
+        <button type="button" data-bind="click: filter" class="btn btn-primary">Filter</button>
+        <button type="button" data-bind="click: clearSelection" class="btn btn-default">Clear</button>
+    
+       
 
         
         </div>

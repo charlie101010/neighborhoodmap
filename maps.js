@@ -233,6 +233,8 @@ var InfoWindowControls = {
         }
 }
 
+var MarkerManager = {}
+
 var MapViewModel = function(){
 
     var self = this;
@@ -240,6 +242,22 @@ var MapViewModel = function(){
     this.markerList = ko.observableArray();
 
     this.selectedMarkers = ko.observableArray();
+
+    this.filter = function(){
+        self.markerList().forEach(function(marker){
+            marker.setMap(null);
+        });
+        self.selectedMarkers().forEach(function(marker){
+            marker.setMap(map);
+        });
+    }
+
+    this.clearSelection= function(){
+        this.markerList().forEach(function(marker){
+            marker.setMap(map);
+        });
+        this.selectedMarkers([]);
+    }
 
     var infowindow = new google.maps.InfoWindow();
 
