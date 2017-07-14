@@ -22,7 +22,7 @@
           <h5>Select any of the items below to filter the map.  Click on the item listing or marker for more details.</h5>
           <h3>
               <!--This binds the listings to the filter function in the MapViewModel -->
-            <select id="myfaves" data-bind="options: markerList,  optionsText: 'title', selectedOptions: selectedMarkers, click: filter"  multiple= "true"></select>
+            <select id="myfaves" data-bind="options: markerList,  optionsText: 'title', selectedOptions: selectedMarkers, click: filter" ></select>
           </h3>
         
         <!--This iterates through the selectedMarkers observable Array and also binds the displayInfoWindow function for each item -->
@@ -42,7 +42,7 @@
         </div>
       </div>
       <div id="map"></div>
-    </div>
+   
  
 
 
