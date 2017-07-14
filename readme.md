@@ -1,12 +1,9 @@
-# Welcome to My Catalogue Application.  
+# Welcome to My Venice Neighborhood Map Application.  
 
-### You will have the ability to view my item catalog and create an account to add, edit and delete items in the catalog.
+### You can get information about some of my favorite places in Venice, CA.
 
-The application constists uses the Flask framework.  It includes an `application.py` file, a templates folder which includes the HTML views and a static folder which contains the CSS files.  Booststrap styling is also used.
+The application uses KnockoutJS for data binding, bootstrap for design and also includes an additional CSS and JS file.  `maps.js` contains the application logic.  In order to run the application open `index.html` in your browser.
 
-In order to setup the application, you should run `python catalog/catalogdbsetupwithdescript2,py` in the command line.  This will create the database to store application data.
+You can select any of the items from the list and click on their marker or listing for additional information.
 
-Once you have done this, you can run the application on your machine by entering `python catalog/application.py` on the command line.
-
-## Authentication & Authorization
-The application uses oAuth2.0 and has both Google and Facebook as providers.
+The application uses the Google Maps API as well as the FourSquare Search API.

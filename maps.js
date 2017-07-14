@@ -15,12 +15,12 @@ var locations = [
       {title: 'The Venice Whaler', location: {lat: 33.9790, lng: -118.4666}},
       {title: 'Jenis Ice Cream', location: {lat: 33.9986, lng: -118.4730}}
 
-        ];
+        ];       
 
 
 function initMap() {
         // Create a styles array to use with the map.  Got this from SnazzyMaps.
-        var styles = [
+    var styles = [
     {
         "featureType": "landscape.man_made",
         "elementType": "geometry",
@@ -156,63 +156,73 @@ function initMap() {
             }
         ]
     }
-]
+];
 
 
         // Constructor creates a new map - only center and zoom are required.
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 33.9850, lng: -118.4695},
-          zoom: 14,
-          styles: styles,
-          mapTypeControl: false
-        });
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 33.9850, lng: -118.4695},
+      zoom: 14,
+      styles: styles,
+      mapTypeControl: false
+    });
 
-        // These are the real estate listings that will be shown to the user.
-        // Normally we'd have these in a database instead.
-        
-        largeInfoWindow = new google.maps.InfoWindow();
-        var bounds = new google.maps.LatLngBounds();
 
-        for(var i=0; i <locations.length; i++){
+    // These are the real estate listings that will be shown to the user.
+    // Normally we'd have these in a database instead.
 
+    largeInfoWindow = new google.maps.InfoWindow();
+    var bounds = new google.maps.LatLngBounds();
+
+    for(var i=0; i <locations.length; i++){
             var marker = new google.maps.Marker({
             map: map,
             position: locations[i].location,
             title: locations[i].title,
             animation: google.maps.Animation.DROP,
-            });
-            markers.push(marker);
-            console.log(markers[i].title);
-            bounds.extend(markers[i].position);
-
-      
-        marker.addListener('click', function(){
-            InfoWindowControls.populateInfoWindow(this, largeInfoWindow);
-            
         });
 
-        marker.addListener('click', toggleBounce);
-       
+        markers.push(marker);
+        console.log(markers[i].title);
+        bounds.extend(markers[i].position);
+
+
+        marker.addListener('click', InfoWindowControls.createWindow);
+
+        marker.addListener('click', MarkerManager.toggleBounce);
+
 
     }
-     map.fitBounds(bounds);
 
-    //Code from Google documentation to make marker bounce
-    function toggleBounce() {
-        if (this.getAnimation() !== null) {
-          this.setAnimation(null);
-        } else {
-          this.setAnimation(google.maps.Animation.BOUNCE);
+    
 
-        }
-      }
+    map.fitBounds(bounds);
 
 
-      //Apply Knockout bindings after the Map object has loaded
+    //Apply Knockout bindings after the Map object has loaded
     ko.applyBindings(new MapViewModel());
 
 
+}
+
+
+
+
+var MarkerManager = {
+
+    toggleBounce: function() {
+        this.setAnimation(google.maps.Animation.BOUNCE);
+        MarkerManager.stopAnimation(this);
+
+      },
+
+    stopAnimation: function(marker) {
+        setTimeout(function () {
+         marker.setAnimation(null);
+        }, 3000);
     }
+
+}
 
 var InfoWindowControls = {
 
@@ -227,7 +237,7 @@ var InfoWindowControls = {
         //Formatting LatLong data for proper FourSquare URL format
         var latlong = InfoWindowControls.getLatLng(marker).toString();
         var noparens = latlong.slice(1, -1);
-        noparens.replace(" ", "")
+        noparens.replace(" ", "");
         //Ajax request calling the FourSquare API
               $.ajax({
                     url: "https://api.foursquare.com/v2/venues/search",
@@ -246,9 +256,7 @@ var InfoWindowControls = {
                         infowindow.setContent("<h1>"+ marker.title + "</h1>" +"<p> Category: " + result.response.venues[0].categories[0].name + "</p>" +
                             "<p> Check Ins: " + result.response.venues[0].stats.checkinsCount + "</p>");
                         infowindow.open(map, marker);
-                        document.getElementById('clear').addEventListener('click', function(){
-                            infowindow.close();
-                        });
+        
                     },
                     error: function (error) {
                          alert('We are unable to retrieve the data for this location');
@@ -259,8 +267,14 @@ var InfoWindowControls = {
             
         },
 
+    createWindow: function(){
+            InfoWindowControls.populateInfoWindow(this, largeInfoWindow);
+            
+        }
+
+
         
-}
+};
 
 
 
@@ -277,7 +291,7 @@ var MapViewModel = function(){
     });
 
     //This array contains selected markers from the multi select box
-    this.selectedMarkers = ko.observableArray();
+    this.selectedMarkers = ko.observableArray((this.markerList()));
 
 
     //Enables filtering to only show selected markers in the list and on the map
@@ -288,15 +302,16 @@ var MapViewModel = function(){
         self.selectedMarkers().forEach(function(marker){
             marker.setMap(map);
         });
-    }
+    };
 
     //This array clears selections and displays all markers on the map again
     this.clearSelection= function(){
         this.markerList().forEach(function(marker){
-             marker.setMap(map);
+            largeInfoWindow.close();
+            marker.setMap(null);
             });
         this.selectedMarkers([]);
-    }
+    };
 
     //Display all locations in the list
     this.selectAll = function(){
@@ -304,22 +319,22 @@ var MapViewModel = function(){
              marker.setMap(map);
             });
         this.selectedMarkers(this.markerList());
-    }
+    };
+
     
     
 
     this.displayInfoWindow = function(marker){
             console.log(marker);
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            MarkerManager.stopAnimation(this);
             InfoWindowControls.getLatLng(marker);
             InfoWindowControls.populateInfoWindow(marker, largeInfoWindow);
-
-        }
+        };
 
     this.chosenMarker = ko.observable(null);
 
-
-}
-
+};
 
 
     
