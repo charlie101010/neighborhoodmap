@@ -5,6 +5,7 @@
     <title>Neighborhood Map</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="mystyle.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="images/favicon.ico" >
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -12,9 +13,18 @@
 
   </head>
   <body>
+    
+
     <div class="container-fluid">
+        <nav class="navbar navbar-light bg-faded">
+         <a class="navbar-brand">
+        <i class="fa fa-bars" id="mobiletoggle" aria-hidden="true"></i>
+      </a>
+    </nav>
+
+   
       <div class="options-box">
-      
+            
           <!--This shows all of the listings in my map -->
           <h1>
              Check Out A List of My Favorite Places in Venice:
@@ -22,7 +32,7 @@
           <h5>Select any of the items below to filter the map.  Click on the item listing or marker for more details.</h5>
           <h3>
               <!--This binds the listings to the filter function in the MapViewModel -->
-            <select id="myfaves" data-bind="options: markerList,  optionsText: 'title', selectedOptions: selectedMarkers, click: filter" ></select>
+            <select id="myfaves" data-bind="options: markerList,  optionsText: 'title', optionsCaption: 'Choose...', selectedOptions: selectedMarkers, click: filter" ></select>
           </h3>
         
         <!--This iterates through the selectedMarkers observable Array and also binds the displayInfoWindow function for each item -->
@@ -40,8 +50,12 @@
 
         
         </div>
-      </div>
-      <div id="map"></div>
+  
+     
+     
+    </div>
+     <div id="map" class="map"></div>
+
    
  
 

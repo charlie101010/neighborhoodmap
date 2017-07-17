@@ -7,7 +7,8 @@ var markers = [];
 //Infowindow which is initialized later to display information about each marker
 var largeInfoWindow;
 
-    //Location data of my favorite places
+
+    //location data of my favorite places
 var locations = [
       {title: 'Baby Blues BBQ', location: {lat: 34.0004, lng: -118.4654}},
       {title: 'Shoops Deli', location: {lat: 34.0039, lng: -118.4858}},
@@ -15,7 +16,14 @@ var locations = [
       {title: 'The Venice Whaler', location: {lat: 33.9790, lng: -118.4666}},
       {title: 'Jenis Ice Cream', location: {lat: 33.9986, lng: -118.4730}}
 
-        ];       
+        ]; 
+
+$('#mobiletoggle').click(function(){
+    $('.options-box').toggle();
+    $('.map').toggleClass('map-fullscreen')
+});
+
+
 
 
 function initMap() {
@@ -194,6 +202,7 @@ function initMap() {
 
     }
 
+    google.maps.event.trigger(map, 'resize');
     
 
     map.fitBounds(bounds);
@@ -204,6 +213,8 @@ function initMap() {
 
 
 }
+
+
 
 
 
@@ -222,7 +233,7 @@ var MarkerManager = {
         }, 3000);
     }
 
-}
+};
 
 var InfoWindowControls = {
 

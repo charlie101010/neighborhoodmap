@@ -1,78 +1,102 @@
 
-      /*Modified CSS formatting from Udacity examples to add left rail next to map and make map full screen* */
-      body {
-        font-family: Arial, sans-serif;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
+/*Modified CSS formatting from Udacity examples to add left rail next to map and make map full screen* */
+html{
+  height: 100%;
+}
 
-     
-
-      input {
-        font-size: 12px;
-      }
-
-      h1 {
-        color: #CDCDCD;
-        font-size: 22px;
-        margin: 0 0 10px 0;
-        text-align: center;
-      }
-
-      h2{
-        color: #CDCDCD;
-        padding: 10px;
-
-      }
-
-      p{
-        color: #CDCDCD;
-        padding: 10px;
-      }
-
-      h5{color: #CDCDCD;
-      }
-
-
-      hr {
-        background: #D0D7D9;
-        height: 1px;
-        margin: 20px 0 20px 0;
-        border: none;
-      }
-
-      #myfaves{
-        width: 100%;
-      }
-
-  
-      #map {
-        bottom:0px;
-        height: 100%;
-        left: 358px;
-        position: absolute;
-        right: 0px;
-      }
-
-      .options-box {
-        background: black;
-        border: 1px solid #999;
-        border-radius: 3px;
-        height: 100vh;
-        line-height: 35px;
-        padding: 10px 10px 30px 10px;
-        text-align: left;
-        width: 340px;
-      
-      }
+body {
+  font-family: Arial, sans-serif;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 
 
-      #pano {
-        width: 200px;
-        height: 200px;
-      }
+input {
+  font-size: 12px;
+}
+
+h1 {
+  color: #CDCDCD;
+  font-size: 22px;
+  margin: 0 0 10px 0;
+  text-align: center;
+}
+
+h2{
+  color: #CDCDCD;
+  padding: 10px;
+
+}
+
+p{
+  color: #CDCDCD;
+  padding: 10px;
+}
+
+h5{color: #CDCDCD;
+}
+
+
+hr {
+  background: #D0D7D9;
+  height: 1px;
+  margin: 20px 0 20px 0;
+  border: none;
+}
+
+#myfaves{
+  width: 100%;
+}
+.container-fluid{
+  background-color: black;
+}
+
+.map {
+  bottom:0px;
+  top: 50px;
+  height: 100%;
+  left: 358px;
+  position: absolute;
+  right: 0px;
+}
+
+.map-fullscreen{ 
+  bottom:0px;
+  top: 50px;
+  height: 100%;
+  left: 0px;
+  position: absolute;
+  right: 0px;
+ 
+}
+
+.navbar{
+  left: 5px;
+}
+
+
+
+.options-box {
+  background: black;
+  border: 1px solid #999
+  border-radius: 3px;
+  height: 100vh;
+  line-height: 35px;
+  padding: 10px 10px 30px 10px;
+  text-align: left;
+  width: 340px;
+
+}
+
+
+
+#pano {
+  width: 200px;
+  height: 200px;
+}
 
 
 

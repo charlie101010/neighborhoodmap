@@ -1,0 +1,40 @@
+{
+	"location": [{
+			"title": "Baby Blues BBQ",
+			"location": {
+				"lat": 34.0004,
+				"lng": -118.4654
+			}
+		},
+		{
+			"title": "Shoops Deli",
+			"location": {
+				"lat": 34.0039,
+				"lng": -118.4858
+			}
+		},
+		{
+			"title": "Casa Linda",
+			"location": {
+				"lat": 33.9923,
+				"lng": -118.4717
+			}
+		},
+		{
+			"title": "The Venice Whaler",
+			"location": {
+				"lat": 33.9790,
+				"lng": -118.4666
+			}
+		},
+		{
+			"title": "Jenis Ice Cream",
+			"location": {
+				"lat": 33.9986,
+				"lng": -118.4730
+			}
+		}
+
+	]
+
+}
